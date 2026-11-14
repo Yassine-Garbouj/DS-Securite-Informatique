@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Vérification du fichier n°{{ f.id }}</h2>
+<table>
+<tr><th>Contrôle</th><th>Résultat</th></tr>
+<tr><td>Intégrité (AES-GCM + SHA-256)</td>
+    <td class="{{ 'ok' if r.integrity_ok else 'ko' }}">{{ r.integrity_msg }}</td></tr>
+<tr><td>Certificat du signataire</td>
+    <td class="{{ 'ok' if r.cert_ok else 'ko' }}">{{ r.cert_msg or 'Non vérifié' }}</td></tr>
+<tr><td>Signature numérique</td>
+    <td class="{{ 'ok' if r.sig_ok else 'ko' }}">{{ r.sig_msg or 'Non vérifiée' }}</td></tr>
+</table>
+<h3>Comparer avec un fichier local</h3>
+<form method="post" action="{{ url_for('main.verify_local', file_id=f.id) }}" enctype="multipart/form-data">
+ <input type="file" name="file" required> <button>Comparer</button>
+</form>
+<p><a href="{{ url_for('main.files') }}">Retour</a></p>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Déposer un fichier</h2>
+<form method="post" action="{{ url_for('main.upload') }}" enctype="multipart/form-data">
+ <input type="file" name="file" required> <button>Déposer</button>
+</form>
+<h2>Mes fichiers</h2>
+<table>
+<tr><th>ID</th><th>Nom</th><th>Taille</th><th>SHA-256</th><th>Actions</th></tr>
+{% for f in own %}
+<tr>
+ <td>{{ f.id }}</td>
+ <td>{{ f.original_name|safe }}</td> {# VULNERABILITE : XSS stocké (|safe) #}
+ <td>{{ f.size }}</td><td>{{ f.sha256[:16] }}…</td>
+ <td>
+  <a href="{{ url_for('main.download', file_id=f.id) }}">Télécharger</a> |
+  <a href="{{ url_for('main.verify', file_id=f.id) }}">Vérifier</a>
+  <form method="post" action="{{ url_for('main.share', file_id=f.id) }}" style="display:inline">
+   <input name="recipient" placeholder="destinataire" size="10"><button>Partager</button>
+  </form>
+ </td>
+</tr>
+{% else %}<tr><td colspan="5">Aucun fichier</td></tr>{% endfor %}
+</table>
+<h2>Partagés avec moi</h2>
+<table>
+<tr><th>ID</th><th>Nom</th><th>Propriétaire</th><th>Actions</th></tr>
+{% for f in shared %}
+<tr>
+ <td>{{ f.id }}</td><td>{{ f.original_name|safe }}</td><td>{{ f.owner }}</td>
+ <td><a href="{{ url_for('main.download', file_id=f.id) }}">Télécharger</a> |
+  <a href="{{ url_for('main.verify', file_id=f.id) }}">Vérifier</a></td>
+</tr>
+{% else %}<tr><td colspan="4">Aucun fichier partagé</td></tr>{% endfor %}
+</table>
+{% endblock %}

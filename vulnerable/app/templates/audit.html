@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Journal d'audit</h2>
+<table>
+<tr><th>Date</th><th>Utilisateur</th><th>Action</th><th>Fichier</th><th>Résultat</th></tr>
+{% for r in rows %}<tr><td>{{ r.ts }}</td><td>{{ r.username }}</td><td>{{ r.action }}</td><td>{{ r.file_id or '' }}</td><td>{{ r.result }}</td></tr>{% endfor %}
+</table>
+{% endblock %}

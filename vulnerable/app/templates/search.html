@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Recherche de fichiers</h2>
+<form method="get"><input name="q" value="{{ q }}"> <button>Rechercher</button></form>
+{% if q %}<p>Résultats pour : {{ q|safe }}</p>{% endif %} {# VULNERABILITE : XSS réfléchi #}
+{% if error %}<div class="warn">Erreur SQL : {{ error }}</div>{% endif %}
+<table>
+<tr><th>ID</th><th>Nom</th><th>Propriétaire</th></tr>
+{% for r in rows %}<tr><td>{{ r[0] }}</td><td>{{ r[1] }}</td><td>{{ r[2] }}</td></tr>{% endfor %}
+</table>
+{% endblock %}
