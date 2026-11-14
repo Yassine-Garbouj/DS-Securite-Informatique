@@ -1,4 +1,4 @@
-"""PREUVES D'ATTAQUES sur la version 1. Chaque test PASSE si l'attaque RÉUSSIT.
+"""PREUVES D'ATTAQUES sur la version vulnérable. Chaque test PASSE si l'attaque RÉUSSIT.
 En version 2, les mêmes scénarios doivent ÉCHOUER (on inversera les assertions)."""
 import io
 import os

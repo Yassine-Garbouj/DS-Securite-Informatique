@@ -27,7 +27,7 @@
  {% endif %}
  <a href="{{ url_for('main.audit') }}">Journal</a>
 </nav>
-<div class="warn">VERSION 1 VOLONTAIREMENT VULNÉRABLE : usage local et pédagogique uniquement.</div>
+<div class="warn">version vulnérable VOLONTAIREMENT VULNÉRABLE : usage local et pédagogique uniquement.</div>
 {% for m in get_flashed_messages() %}<div class="msg">{{ m }}</div>{% endfor %}
 {% block content %}{% endblock %}
 </body>

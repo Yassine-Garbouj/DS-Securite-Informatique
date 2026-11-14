@@ -1,4 +1,4 @@
-"""Configuration de la VERSION 1 (volontairement vulnérable)."""
+"""Configuration de la version vulnérable (volontairement vulnérable)."""
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))

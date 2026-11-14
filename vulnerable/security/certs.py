@@ -8,21 +8,17 @@ from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.x509.oid import NameOID
 
-
 def _now():
     return datetime.datetime.now(datetime.timezone.utc)
 
-
 def _name(common_name: str) -> x509.Name:
     return x509.Name([x509.NameAttribute(NameOID.COMMON_NAME, common_name)])
-
 
 def _key_usage(ca: bool) -> x509.KeyUsage:
     return x509.KeyUsage(
         digital_signature=True, content_commitment=not ca,
         key_encipherment=False, data_encipherment=False, key_agreement=False,
         key_cert_sign=ca, crl_sign=ca, encipher_only=False, decipher_only=False)
-
 
 def create_ca(common_name="SecureShare Local CA", days=3650):
     """Crée une AC racine auto-signée (clé ECDSA P-256)."""
@@ -37,7 +33,6 @@ def create_ca(common_name="SecureShare Local CA", days=3650):
             .add_extension(_key_usage(ca=True), critical=True)
             .sign(key, hashes.SHA256()))
     return key, cert
-
 
 def load_or_create_ca(pki_dir):
     """Charge l'AC locale, ou la crée au premier lancement."""
@@ -58,7 +53,6 @@ def load_or_create_ca(pki_dir):
         f.write(cert.public_bytes(serialization.Encoding.PEM))
     return key, cert
 
-
 def issue_user_cert(username, ca_key, ca_cert, not_before=None, not_after=None):
     """Émet un certificat pour un utilisateur. Retourne (clé privée PEM, certificat PEM)."""
     key = ec.generate_private_key(ec.SECP256R1())
@@ -76,10 +70,8 @@ def issue_user_cert(username, ca_key, ca_cert, not_before=None, not_after=None):
                                 serialization.NoEncryption())  # VULNERABILITE
     return key_pem, cert.public_bytes(serialization.Encoding.PEM)
 
-
 def verify_certificate(cert_pem, ca_cert, expected_cn):
-    """Vérifie signature de l'AC, validité, usage de clé et identité.
-    Retourne (ok, message explicite)."""
+    """Vérifie signature de l'AC, validité, usage de clé et identité. Retourne (ok, message explicite)."""
     try:
         cert = x509.load_pem_x509_certificate(cert_pem)
     except ValueError:

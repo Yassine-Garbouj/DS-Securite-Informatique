@@ -1,4 +1,4 @@
-"""Routes de la VERSION 1 (volontairement vulnérable).
+"""Routes de la version vulnérable (volontairement vulnérable).
 Les failles sont repérées par le commentaire « VULNERABILITE »."""
 import datetime
 import io

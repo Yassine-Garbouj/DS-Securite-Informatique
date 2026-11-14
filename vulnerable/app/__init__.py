@@ -5,7 +5,6 @@ from flask import Flask
 import config
 from . import db
 
-
 def create_app(overrides=None):
     app = Flask(__name__)
     app.config.update(
